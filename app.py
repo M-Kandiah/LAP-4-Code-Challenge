@@ -17,21 +17,27 @@ def home():
 
 @app.route('/shorten',  methods=['POST'])
 def shorten():
-    if request.method == 'POST':
+    if request.method == 'POST' and request.form['url']:
         # print(request.method)
         short_id = str(uuid.uuid4())[0:6]
-        # print(short_id)
+        print(short_id)
         url = request.form['url']
         # print(url)
         mongo.db.short_urls.insert_one({'short_id' : short_id, 'url' : url})
         full_short_url = f'https://sh0rt3n.herokuapp.com/{short_id}'
+        # full_short_url = f'https://localhost:5000/{short_id}'
         return render_template("home.html", url = full_short_url)
+    else:
+        print('hello frm else')
+        return render_template('home.html', url = 'Please enter a url')
 
 @app.route('/<short>', methods=['GET'])
 def change(short):
     url = mongo.db.short_urls.find_one({'short_id': short})
+    print(url)
     if url:
         long_url = url['url']
+        print(long_url)
         if long_url[0:8] == "https://" or long_url[0:7] == "http://":
             print(long_url)
             return redirect(long_url)
