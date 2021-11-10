@@ -8,6 +8,7 @@ flask = "*"
 flask-cors = "*"
 flask-pymongo = "*"
 dnspython = "*"
+gunicorn = "*"
 
 [dev-packages]
 
