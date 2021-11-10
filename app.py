@@ -24,7 +24,7 @@ def shorten():
         url = request.form['url']
         # print(url)
         mongo.db.short_urls.insert_one({'short_id' : short_id, 'url' : url})
-        full_short_url = f'localhost:5000/{short_id}'
+        full_short_url = f'https://sh0rt3n.herokuapp.com/{short_id}'
         return render_template("home.html", url = full_short_url)
 
 @app.route('/<short>', methods=['GET'])
